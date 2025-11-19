@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt-Driven Indian Tree Species Identifier</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 650px;
+        }
+        h1 {
+            color: #2e8b57;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #a0d4b9;
+            padding-bottom: 10px;
+        }
+        .upload-section {
+            border: 2px dashed #a0d4b9;
+            padding: 30px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            background-color: #f8fcfb;
+            cursor: pointer;
+        }
+        #imageUpload { display: none; }
+        .upload-button {
+            background-color: #ff9900;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+        .upload-button:hover { background-color: #e68a00; }
+        #results {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #ffffff;
+            min-height: 100px;
+            display: none;
+        }
+        #results h2 {
+            color: #2e8b57;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 5px;
+            margin-top: 0;
+        }
+        .tree-name {
+            font-size: 1.5em;
+            color: #007bff;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+        #results ul { padding-left: 20px; }
+        #results li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🇮🇳 Prompt-Driven Indian Tree Species Identifier</h1>
+
+    <div class="upload-section" onclick="document.getElementById('imageUpload').click();">
+        <p>Click or select an Indian Tree Image (Leaf, Bark, Full Tree)</p>
+        <input type="file" id="imageUpload" accept="image/*">
+        <button class="upload-button" onclick="identifyTree(event)">Identify Indian Tree Species</button>
+        <p id="fileName" style="margin-top: 10px; font-style: italic; color: #666;"></p>
+    </div>
+
+    <hr>
+
+    <div id="results"></div>
+</div>
+
+<script>
+
+    const imageUpload = document.getElementById('imageUpload');
+    const fileNameDisplay = document.getElementById('fileName');
+    const resultsDiv = document.getElementById('results');
+
+    imageUpload.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            fileNameDisplay.textContent = 'Selected File: ' + this.files[0].name;
+            resultsDiv.style.display = 'none';
+        } else {
+            fileNameDisplay.textContent = '';
+        }
+    });
+
+    function identifyTree(event) {
+        event.stopPropagation();
+
+        if (!imageUpload.files || imageUpload.files.length === 0) {
+            alert("Please select a tree image file first!");
+            return;
+        }
+
+        const mockResults = getMockTreeData(imageUpload.files[0].name);
+
+        displayResults(mockResults);
+    }
+
+    /* **************************************
+       COMPLETE MOCK IDENTIFICATION LOGIC
+    **************************************** */
+    function getMockTreeData(fileName) {
+        const lowerFileName = fileName.toLowerCase();
+
+        // NEEM
+        if (lowerFileName.includes('neem') || lowerFileName.includes('azadirachta')) {
+            return {
+                name: "Azadirachta indica (Neem)",
+                benefits: [
+                    "🌿 Natural air purifier with medicinal properties.",
+                    "💧 Highly drought-tolerant.",
+                    "🐛 Works as natural pesticide.",
+                    "💨 Provides excellent shade."
+                ]
+            };
+        }
+
+        // PEEPAL
+        else if (lowerFileName.includes('peepal') || lowerFileName.includes('ficus')) {
+            return {
+                name: "Ficus religiosa (Peepal)",
+                benefits: [
+                    "💨 Releases oxygen even at night.",
+                    "🙏 Strong cultural importance.",
+                    "🌳 Massive shade.",
+                    "♻ Supports biodiversity."
+                ]
+            };
+        }
+
+        // JAMUN
+        else if (lowerFileName.includes('jamun') || lowerFileName.includes('syzygium')) {
+            return {
+                name: "Syzygium cumini (Jamun)",
+                benefits: [
+                    "☀ Tolerates heat and pollution.",
+                    "🍎 Produces edible fruit.",
+                    "💧 Good for soil and water conservation.",
+                    "🌿 Dense evergreen foliage."
+                ]
+            };
+        }
+
+        // AMALTAS
+        else if (lowerFileName.includes('amaltas') || lowerFileName.includes('cassia')) {
+            return {
+                name: "Cassia fistula (Amaltas)",
+                benefits: [
+                    "✨ Beautiful yellow flowers.",
+                    "☀ Heat resistant.",
+                    "🦋 Loved by pollinators.",
+                    "🌱 Medium-sized tree for avenues."
+                ]
+            };
+        }
+
+        // 🌴 COCONUT TREE
+        else if (lowerFileName.includes('coconut') || lowerFileName.includes('cocos')) {
+            return {
+                name: "Cocos nucifera (Coconut Palm)",
+                benefits: [
+                    "🥥 Provides coconut fruit, water, coir and oil.",
+                    "🌴 Thrives in tropical coastal regions.",
+                    "💧 Prevents coastal soil erosion.",
+                    "🏝 Strong aesthetic appeal."
+                ]
+            };
+        }
+
+        // 🥭 MANGO TREE
+        else if (lowerFileName.includes('mango') || lowerFileName.includes('mangifera')) {
+            return {
+                name: "Mangifera indica (Mango Tree)",
+                benefits: [
+                    "🥭 Produces mango fruit.",
+                    "🌳 Large shade canopy.",
+                    "🍃 Strong air-purifying ability.",
+                    "🐦 Supports birds & insects."
+                ]
+            };
+        }
+
+        // 🌳 BANYAN TREE
+        else if (lowerFileName.includes('banyan') || lowerFileName.includes('ficus beng')) {
+            return {
+                name: "Ficus benghalensis (Banyan Tree)",
+                benefits: [
+                    "🌳 Huge everlasting shade.",
+                    "🏞 Cultural and historical value.",
+                    "🐦 Wildlife supporting.",
+                    "🌱 Extremely long lifespan."
+                ]
+            };
+        }
+
+        // 🌲 TEAK TREE
+        else if (lowerFileName.includes('teak') || lowerFileName.includes('tectona')) {
+            return {
+                name: "Tectona grandis (Teak Tree)",
+                benefits: [
+                    "🪵 Premium timber value.",
+                    "☀ Thrives in warm climate.",
+                    "🌱 Used in afforestation.",
+                    "💧 Reduces soil erosion."
+                ]
+            };
+        }
+
+        // DEFAULT UNKNOWN
+        else {
+            return {
+                name: "Unidentified Indian Species",
+                benefits: [
+                    "🌡 Helps cool the environment.",
+                    "🌬 Improves air quality.",
+                    "💧 Aids groundwater recharge.",
+                    "🏡 Improves landscape and wellness."
+                ]
+            };
+        }
+    }
+
+    function displayResults(data) {
+        let benefitsHTML = data.benefits.map(b => <li>${b}</li>).join('');
+
+        resultsDiv.innerHTML = `
+            <h2>Identification Results</h2>
+            <span class="tree-name">${data.name}</span>
+            <p><strong>Key Benefits:</strong></p>
+            <ul>${benefitsHTML}</ul>
+        `;
+        resultsDiv.style.display = 'block';
+    }
+
+</script>
+
+</body>
+</html>
